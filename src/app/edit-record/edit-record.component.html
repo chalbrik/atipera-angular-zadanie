@@ -1,0 +1,29 @@
+<div class="backdrop" (click)="onCancel()"></div>
+<div class="dialog-content">
+  <mat-form-field>
+    <mat-label>Position</mat-label>
+    <input matInput [(ngModel)]="record.position" type="number" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="record.name" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Weight</mat-label>
+    <input matInput [(ngModel)]="record.weight" type="number" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Symbol</mat-label>
+    <input matInput [(ngModel)]="record.symbol" />
+  </mat-form-field>
+
+  <div class="actions">
+    <button class="red" mat-button color="warn" (click)="onCancel()">
+      Cancel
+    </button>
+    <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+  </div>
+</div>
