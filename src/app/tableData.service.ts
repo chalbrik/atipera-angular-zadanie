@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { PeriodicElement } from './tableData.model';
 
 const ELEMENT_DATA: PeriodicElement[] = [
@@ -19,21 +19,26 @@ const ELEMENT_DATA: PeriodicElement[] = [
   providedIn: 'root',
 })
 export class TableDataService {
-  private elements: PeriodicElement[] = ELEMENT_DATA;
+  private elementsSubject = new BehaviorSubject<PeriodicElement[]>(
+    ELEMENT_DATA
+  );
+  elements$ = this.elementsSubject.asObservable();
 
   constructor() {}
 
   getElements(): Observable<PeriodicElement[]> {
-    return of(ELEMENT_DATA);
+    return this.elements$;
   }
 
   updateElement(
     index: number,
     updatedElement: PeriodicElement
   ): Observable<PeriodicElement[]> {
-    if (index >= 0 && index < this.elements.length) {
-      this.elements[index] = updatedElement;
+    const elements = this.elementsSubject.value;
+    if (index >= 0 && index < elements.length) {
+      elements[index] = updatedElement;
+      this.elementsSubject.next(elements);
     }
-    return of(this.elements);
+    return this.elements$;
   }
 }

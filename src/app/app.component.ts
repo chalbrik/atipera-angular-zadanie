@@ -8,11 +8,9 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { EditRecordComponent } from './edit-record/edit-record.component';
 
 import { PeriodicElement } from './tableData.model';
-
 import { TableDataService } from './tableData.service';
 import { RxState } from '@rx-angular/state';
 import { debounceTime } from 'rxjs';
-
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -28,15 +26,14 @@ import { CommonModule } from '@angular/common';
     EditRecordComponent,
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
   providers: [RxState],
 })
 export class AppComponent implements OnInit {
-  dataSource = new MatTableDataSource<PeriodicElement>();
+  dataSource: MatTableDataSource<PeriodicElement> = new MatTableDataSource();
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   filterControl = new FormControl('');
-
-  isEditingRow: boolean = false;
+  isEditingRow = false;
   editingRecord!: PeriodicElement;
   editingIndex!: number;
 
@@ -80,12 +77,8 @@ export class AppComponent implements OnInit {
   }
 
   onSaveRecord({ index, record }: { index: number; record: PeriodicElement }) {
-    this.tableDataService
-      .updateElement(index, record)
-      .subscribe((updatedData) => {
-        this.dataSource.data = updatedData;
-        this.isEditingRow = false;
-      });
+    this.tableDataService.updateElement(index, record);
+    this.isEditingRow = false;
   }
 
   onCancelEditRecord() {
